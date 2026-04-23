@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>上海城市展厅 - 历史与未来的对话</title>
+    <!-- 引入魔珐星云官方SDK -->
+    <script src="https://media.xingyun3d.com/xingyun3d/general/litesdk/xmovAvatar@latest.js"></script>
+    <!-- 引入配置文件 -->
+    <script src="config.js"></script>
+    <!-- 引入样式文件 -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 背景粒子效果 -->
+    <div class="particles" id="particles"></div>
+
+    <!-- 配置按钮 -->
+    <button class="config-button" id="config-btn" onclick="openConfigModal()">
+        ⚙️ 配置
+    </button>
+
+    <!-- 配置弹窗 -->
+    <div class="config-modal-overlay" id="config-modal">
+        <div class="config-modal">
+            <div class="config-modal-header">
+                <h2>🔧 系统配置</h2>
+                <button class="config-close-btn" onclick="closeConfigModal()">×</button>
+            </div>
+            <div class="config-modal-body">
+                <div class="config-section">
+                    <h3>🌟 魔珐星云配置</h3>
+                    <div class="config-item">
+                        <label for="config-appId">App ID</label>
+                        <input type="text" id="config-appId" placeholder="请输入魔珐星云 App ID">
+                    </div>
+                    <div class="config-item">
+                        <label for="config-appSecret">App Secret</label>
+                        <input type="password" id="config-appSecret" placeholder="请输入魔珐星云 App Secret">
+                    </div>
+                    <div class="config-item">
+                        <label for="config-gatewayServer">网关地址</label>
+                        <input type="text" id="config-gatewayServer" placeholder="请输入网关地址">
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h3>🤖 豆包大模型配置</h3>
+                    <div class="config-item">
+                        <label for="config-apiKey">API Key</label>
+                        <input type="password" id="config-apiKey" placeholder="请输入豆包 API Key">
+                    </div>
+                    <div class="config-item">
+                        <label for="config-apiUrl">API 地址</label>
+                        <input type="text" id="config-apiUrl" placeholder="请输入 API 地址">
+                    </div>
+                    <div class="config-item">
+                        <label for="config-model">模型名称</label>
+                        <input type="text" id="config-model" placeholder="请输入模型名称">
+                    </div>
+                </div>
+            </div>
+            <div class="config-modal-footer">
+                <button class="config-btn config-btn-cancel" onclick="closeConfigModal()">取消</button>
+                <button class="config-btn config-btn-save" onclick="saveConfig()">保存配置</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1 class="city-title fade-in">上海</h1>
+                <!-- 时间段选择器 -->
+                <div class="time-periods">
+                    <div class="time-period period-past active glow-effect" data-period="past">历史</div>
+                    <div class="time-period period-present" data-period="present">现代</div>
+                    <div class="time-period period-future" data-period="future">未来</div>
+                </div>
+            </div>
+            <div class="subtitle slide-up">从江南小镇到国际大都市的千年变迁</div>
+        </header>
+
+        <div class="main-content">
+            <!-- 左侧：数字人展示区 -->
+            <div class="avatar-section slide-left">
+                <h2 class="section-title">城市讲解员</h2>
+                
+                <div class="avatar-content">
+                    <div class="sdk-container">
+                        <!-- 等待初始化时的占位符 -->
+                        <div class="placeholder" id="placeholder">
+                            <div class="placeholder-icon breathing">🏙️</div>
+                            <p>正在准备城市讲解员...</p>
+                            <p><small>请稍候，即将为您呈现上海的魅力</small></p>
+                        </div>
+                        <!-- SDK容器 -->
+                        <div id="sdk"></div>
+                    </div>
+                    
+                    <!-- 字幕显示区域 -->
+                    <div class="subtitle-display">
+                        <div class="subtitle-text" id="subtitle-text">
+                            欢迎来到上海城市展厅，我是您的智能讲解员
+                        </div>
+                        <button id="stop-speaking-btn" class="stop-speaking-button" onclick="stopSpeaking()">
+                            ⏹️ 结束讲解
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧：内容展示区 -->
+            <div class="content-section slide-right">
+                <!-- 历史内容卡片 -->
+                <div class="content-card slide-up" id="past-content">
+                    <h3>
+                        <span class="content-icon pulse-effect">🏛️</span>
+                        上海的历史印记
+                    </h3>
+                    <div class="content-description">
+                        从春秋时期的吴越之地，到南宋时期的上海镇，再到近代开埠后的"东方巴黎"，上海见证了中华文明的变迁与发展。
+                    </div>
+                    <div class="content-highlights">
+                        <div class="highlight-item float-effect clickable-item" data-topic="豫园">
+                            <span class="highlight-icon">🏯</span>
+                            <span>豫园 - 明代私家园林</span>
+                        </div>
+                        <div class="highlight-item float-effect clickable-item" data-topic="城隍庙">
+                            <span class="highlight-icon">⛩️</span>
+                            <span>城隍庙 - 道教文化圣地</span>
+                        </div>
+                        <div class="highlight-item float-effect clickable-item" data-topic="外滩">
+                            <span class="highlight-icon">🚢</span>
+                            <span>外滩 - 万国建筑博览群</span>
+                        </div>
+                        <div class="highlight-item float-effect clickable-item" data-topic="石库门">
+                            <span class="highlight-icon">🏮</span>
+                            <span>石库门 - 海派文化象征</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 现代内容卡片 -->
+                <div class="content-card slide-up" id="present-content" style="display: none;">
+                    <h3>
+                        <span class="content-icon pulse-effect">🌃</span>
+                        今日上海风采
+                    </h3>
+                    <div class="content-description">
+                        作为中国最大的经济中心和重要的国际金融中心城市，上海以其独特的魅力吸引着世界的目光，展现着中国改革开放的伟大成就。
+                    </div>
+                    <div class="content-highlights">
+                        <div class="highlight-item float-effect clickable-item" data-topic="陆家嘴">
+                            <span class="highlight-icon">🏗️</span>
+                            <span>陆家嘴 - 金融中心地标</span>
+                        </div>
+                        <div class="highlight-item float-effect clickable-item" data-topic="地铁网络">
+                            <span class="highlight-icon">🚇</span>
+                            <span>地铁网络 - 世界最长</span>
+                        </div>
+                        <div class="highlight-item float-effect clickable-item" data-topic="洋山深水港">
+                            <span class="highlight-icon">🌉</span>
+                            <span>洋山深水港 - 世界第一大港</span>
+                        </div>
+                        <div class="highlight-item float-effect clickable-item" data-topic="文化创意产业">
+                            <span class="highlight-icon">🎭</span>
+                            <span>文化创意产业中心</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 未来内容卡片 -->
+                <div class="content-card slide-up" id="future-content" style="display: none;">
+                    <h3>
+                        <span class="content-icon pulse-effect">🚀</span>
+                        上海未来展望
+                    </h3>
+                    <div class="content-description">
+                        站在新的历史起点，上海正朝着建设成为具有世界影响力的社会主义现代化国际大都市目标迈进，描绘着更加美好的未来蓝图。
+                    </div>
+                    <div class="content-highlights">
+                        <div class="highlight-item float-effect clickable-item" data-topic="人工智能创新">
+                            <span class="highlight-icon">🤖</span>
+                            <span>人工智能创新高地</span>
+                        </div>
+                        <div class="highlight-item float-effect clickable-item" data-topic="绿色低碳发展">
+                            <span class="highlight-icon">🌱</span>
+                            <span>绿色低碳发展示范</span>
+                        </div>
+                        <div class="highlight-item float-effect clickable-item" data-topic="全球科技创新">
+                            <span class="highlight-icon">🌐</span>
+                            <span>全球科技创新中心</span>
+                        </div>
+                        <div class="highlight-item float-effect clickable-item" data-topic="智慧城市">
+                            <span class="highlight-icon">🏙️</span>
+                            <span>智慧城市全球标杆</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 用户问题输入框 -->
+                <div class="question-input-panel slide-up">
+                    <h3 class="section-title">互动问答</h3>
+                    
+                    <div class="question-input-container">
+                        <input 
+                            type="text" 
+                            id="user-question" 
+                            class="question-input" 
+                            placeholder="请输入您想了解的问题..."
+                            onkeypress="handleQuestionKeypress(event)"
+                        >
+                        <button class="submit-question-btn ripple" onclick="submitQuestion()">
+                            <span class="btn-icon">🎤</span>
+                            <span>提问</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 加载遮罩 -->
+    <div class="loading-overlay fade-in" id="loading-overlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <div id="loading-text">正在初始化城市讲解员...</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="loading-progress-inner"></div>
+            </div>
+            <div id="progress-text">0%</div>
+        </div>
+    </div>
+
+    <script>
+        // 全局变量
+        let liteSDK = null;
+        let isInitialized = false;
+        let isSpeaking = false;
+        let isSpeakingSentence = false;
+        let currentPeriod = 'past';
+        let sentenceQueue = [];
+        let isStreaming = false;
+        let currentSpeakingSentence = '';
+
+        // 上海城市讲解内容
+        const shanghaiContent = {
+            past: {
+                intro: "上海，这座拥有千年历史的江南名城，从春秋时期的吴越之地，到南宋时期的上海镇，再到近代开埠后的东方巴黎，见证了中华文明的辉煌变迁。",
+                landmarks: "上海的历史名胜众多，豫园作为明代私家园林的典范，展现了中国传统园林艺术的精髓；城隍庙承载着丰富的道教文化；外滩的万国建筑博览群见证了上海开埠后的百年沧桑；石库门建筑则是海派文化的独特象征。",
+                development: "近代上海的发展历程波澜壮阔，从1843年开埠到成为远东第一大都市，上海创造了无数辉煌。这里是中国近代工业的发源地，也是新文化运动的重要阵地，更是中国共产党诞生的地方。",
+                planning: "历史保护与城市发展并重，上海在城市更新中注重历史文脉的延续，通过修旧如旧的方式，让历史建筑焕发新生，为城市保留了珍贵的记忆。"
+            },
+            present: {
+                intro: "今日上海，作为中国最大的经济中心和重要的国际金融中心城市，以其独特的魅力吸引着世界的目光，展现着中国改革开放的伟大成就。",
+                landmarks: "现代上海的地标建筑令人叹为观止，东方明珠广播电视塔、上海中心大厦、金茂大厦、环球金融中心组成的陆家嘴天际线，展现了上海作为国际大都市的现代风采。",
+                development: "上海的发展成就举世瞩目，GDP总量位居中国城市之首，金融市场规模全球领先，科技创新能力不断增强，城市基础设施世界一流，人民生活水平持续提高。",
+                planning: "上海正按照建设成为具有世界影响力的社会主义现代化国际大都市的目标，统筹推进经济、政治、文化、社会、生态文明建设，不断提升城市能级和核心竞争力。"
+            },
+            future: {
+                intro: "站在新的历史起点，上海正朝着建设成为具有世界影响力的社会主义现代化国际大都市目标迈进，描绘着更加美好的未来蓝图。",
+                landmarks: "未来的上海将拥有更多世界级地标，浦东国际机场扩容工程、虹桥国际开放枢纽、临港新片区等重大项目将进一步提升上海的城市功能和国际影响力。",
+                development: "上海将加快建设具有全球影响力的科技创新中心，聚焦集成电路、生物医药、人工智能三大先导产业，打造世界级产业集群，推动经济高质量发展。",
+                planning: "上海的未来规划宏伟而清晰，到2035年将基本建成具有世界影响力的社会主义现代化国际大都市，到2050年全面建成卓越的全球城市，成为令人向往的创新之城、人文之城、生态之城。"
+            }
+        };
+
+        // 打开配置弹窗
+        function openConfigModal() {
+            const modal = document.getElementById('config-modal');
+
+            // 填充当前配置到表单
+            document.getElementById('config-appId').value = xingyunConfig.appId;
+            document.getElementById('config-appSecret').value = xingyunConfig.appSecret;
+            document.getElementById('config-gatewayServer').value = xingyunConfig.gatewayServer;
+            document.getElementById('config-apiKey').value = doubaoConfig.apiKey;
+            document.getElementById('config-apiUrl').value = doubaoConfig.apiUrl;
+            document.getElementById('config-model').value = doubaoConfig.model;
+
+            modal.classList.add('show');
+        }
+
+        // 关闭配置弹窗
+        function closeConfigModal() {
+            const modal = document.getElementById('config-modal');
+            modal.classList.remove('show');
+        }
+
+        // 保存配置
+        function saveConfig() {
+            const config = {
+                xingyun: {
+                    appId: document.getElementById('config-appId').value.trim(),
+                    appSecret: document.getElementById('config-appSecret').value.trim(),
+                    gatewayServer: document.getElementById('config-gatewayServer').value.trim()
+                },
+                doubao: {
+                    apiKey: document.getElementById('config-apiKey').value.trim(),
+                    apiUrl: document.getElementById('config-apiUrl').value.trim(),
+                    model: document.getElementById('config-model').value.trim()
+                }
+            };
+
+            if (saveConfigToStorage(config)) {
+                alert('配置保存成功！页面将重新加载以应用新配置。');
+                closeConfigModal();
+                // 重新加载页面以应用新配置
+                location.reload();
+            } else {
+                alert('配置保存失败，请重试！');
+            }
+        }
+
+        // 点击弹窗外部关闭
+        document.addEventListener('click', function(e) {
+            const modal = document.getElementById('config-modal');
+            if (e.target === modal) {
+                closeConfigModal();
+            }
+        });
+
+        // 初始化页面
+        window.onload = function() {
+            createParticles();
+            setupEventListeners();
+
+            // 检查配置是否完整，如果不完整则打开配置弹窗
+            if (!isConfigComplete()) {
+                setTimeout(() => {
+                    openConfigModal();
+                }, 500);
+            } else {
+                // 配置完整，初始化SDK
+                initSDK();
+            }
+        };
+
+        // SDK连接成功回调
+        function onSDKConnected() {
+            updateStatus('avatar-status', '已连接');
+            
+            // 连接成功后，开始介绍
+            setTimeout(() => {
+                speakMessage(shanghaiContent.past.intro);
+            }, 1000);
+        }
+
+        // SDK连接断开回调
+        function onSDKDisconnected() {
+            updateStatus('avatar-status', '已断开');
+        }
+
+        // 创建背景粒子效果
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // 设置事件监听器
+        function setupEventListeners() {
+            // 为所有按钮添加涟漪效果
+            document.querySelectorAll('.control-btn, .time-period').forEach(button => {
+                button.classList.add('ripple');
+                
+                button.addEventListener('click', function(e) {
+                    // 创建涟漪效果
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('ripple-effect');
+                    
+                    // 计算涟漪位置和大小
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    
+                    // 添加点击效果
+                    this.classList.add('btn-click');
+                    setTimeout(() => {
+                        this.classList.remove('btn-click');
+                    }, 100);
+                    
+                    // 添加涟漪元素
+                    this.appendChild(ripple);
+                    
+                    // 移除涟漪元素
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+            
+            // 时间段切换按钮
+            document.querySelectorAll('.time-period').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const period = this.getAttribute('data-period');
+                    switchPeriod(period);
+                });
+            });
+
+            // 可点击的highlight-item（豫园、城隍庙等）
+            document.querySelectorAll('.clickable-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const topic = this.getAttribute('data-topic');
+                    handleTopicClick(topic);
+                });
+            });
+        }
+
+        // 处理主题点击事件
+        async function handleTopicClick(topic) {
+            if (!isInitialized) {
+                alert('请等待数字人初始化完成');
+                return;
+            }
+
+            if (isSpeaking) {
+                await stopSpeaking();
+            }
+
+            const prompt = `请详细介绍上海的${topic}，包括其历史背景、文化意义、特色亮点等信息，语言要生动有趣，适合讲解员向游客介绍。`;
+
+            // 显示加载提示
+            updateSubtitle('正在获取讲解内容，请稍候...');
+
+            try {
+                await callDoubaoAPI(prompt);
+            } catch (error) {
+                updateSubtitle('获取讲解内容失败，请稍后重试');
+                setTimeout(() => {
+                    updateSubtitle('');
+                }, 3000);
+            }
+        }
+
+        // 处理句子队列的函数（全局）
+        async function processSentenceQueue() {
+            if (isSpeakingSentence || sentenceQueue.length === 0) {
+                return;
+            }
+            
+            const sentence = sentenceQueue.shift();
+            isSpeakingSentence = true;
+            
+            // 调用speak方法
+            if (!isStreaming) {
+                isStreaming = true;
+                await streamSpeak(sentence, true, false);
+            } else {
+                await streamSpeak(sentence, false, false);
+            }
+            
+            // 启动定时器检查语音状态
+            startVoiceStateCheck();
+        }
+
+        // 启动语音状态检查定时器
+        function startVoiceStateCheck() {
+            const checkInterval = setInterval(() => {
+                if (!isSpeaking && isSpeakingSentence) {
+                    clearInterval(checkInterval);
+                    isSpeakingSentence = false;
+                    
+                    // 处理队列中的下一个句子
+                    processSentenceQueue().catch(err => {
+                        console.error('处理句子队列时出错:', err);
+                    });
+                }
+            }, 200);
+        }
+
+        // 调用豆包API（支持流式响应）
+        async function callDoubaoAPI(prompt) {
+            const config = doubaoConfig;
+
+            if (!config.apiKey || !config.model) {
+                const shouldConfig = confirm('豆包API配置不完整，请先配置相关信息！\n\n是否打开配置页面？');
+                if (shouldConfig) {
+                    openConfigModal();
+                }
+                return;
+            }
+
+            const requestData = {
+                model: config.model,
+                stream: true,
+                messages: [
+                    {
+                        content: prompt,
+                        role: 'user'
+                    }
+                ]
+            };
+
+            let fullContent = '';
+            let accumulatedContent = '';
+            
+            // 重置队列和状态
+            sentenceQueue = [];
+            isStreaming = false;
+            isSpeakingSentence = false;
+            
+            try {
+                const response = await fetch(config.apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${config.apiKey}`
+                    },
+                    body: JSON.stringify(requestData)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+
+                updateSubtitle('正在为您讲解...');
+                // 显示结束讲解按钮
+                showStopButton();
+                while (true) {
+                    const { done, value } = await reader.read();
+                    
+                    if (done) {
+                        break;
+                    }
+
+                    const chunk = decoder.decode(value, { stream: true });
+                    const lines = chunk.split('\n');
+
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            const dataStr = line.slice(6);
+                            
+                            if (dataStr === '[DONE]') {
+                                continue;
+                            }
+
+                            try {
+                                const data = JSON.parse(dataStr);
+                                
+                                if (data.choices && data.choices.length > 0) {
+                                    const delta = data.choices[0].delta;
+                                    
+                                    if (delta.content) {
+                                        fullContent += delta.content;
+                                        accumulatedContent += delta.content;
+                                        
+                                        // 检查是否包含句子结束标点
+                                        const sentences = accumulatedContent.match(/[^。！？.!?]+[。！？.!?]+/g);
+                                        
+                                        if (sentences && sentences.length > 0) {
+                                            // 提取完整的句子
+                                            const completeSentence = sentences[sentences.length - 1];
+                                            
+                                            // 移除已处理的句子
+                                            const lastSentenceIndex = accumulatedContent.lastIndexOf(completeSentence);
+                                            accumulatedContent = accumulatedContent.substring(lastSentenceIndex + completeSentence.length);
+                                            
+                                            // 将句子加入队列
+                                            sentenceQueue.push(completeSentence);
+                                            
+                                            // 尝试处理队列（不阻塞，继续读取流式数据）
+                                            processSentenceQueue().catch(err => {
+                                                console.error('处理句子队列时出错:', err);
+                                            });
+                                        }
+                                    }
+                                }
+                            } catch (e) {
+                                console.warn('解析流式数据失败:', e);
+                            }
+                        }
+                    }
+                }
+
+                // 处理剩余的内容
+                if (accumulatedContent.trim().length > 0) {
+                    sentenceQueue.push(accumulatedContent.trim());
+                    await processSentenceQueue();
+                    
+                    // 等待所有句子说完
+                    while (sentenceQueue.length > 0 || isSpeakingSentence) {
+                        await sleep(100);
+                    }
+                    
+                    // 发送结束标识
+                    await streamSpeak('', false, true);
+                } else if (isStreaming) {
+                    // 如果没有剩余内容但已经开始流式输出，发送结束标识
+                    while (isSpeakingSentence) {
+                        await sleep(100);
+                    }
+                    await streamSpeak('', false, true);
+                }
+                
+                return fullContent;
+                
+            } catch (error) {
+                console.error('调用豆包API出错:', error);
+                throw error;
+            }
+        }
+
+        // 流式调用speak方法
+        async function streamSpeak(text, isStart, isEnd) {
+            if (!isInitialized || !liteSDK) {
+                console.error('SDK未初始化');
+                return;
+            }
+            
+            if (text) {
+                currentSpeakingSentence = text;
+            }
+            
+            try {
+                // 调用SDK的speak方法
+                // 参数说明: ssml-文本内容, is_start-是否是第一句, is_end-是否是最后一句
+                const result = liteSDK.speak(text, isStart, isEnd);
+                console.log('流式speak调用结果:', result);
+                
+            } catch (error) {
+                console.error('流式speak调用失败:', error);
+            }
+        }
+
+        // 等待语音状态变为 idle
+        function waitForVoiceIdle() {
+            return new Promise((resolve) => {
+                const checkInterval = setInterval(() => {
+                    if (!isSpeaking) {
+                        clearInterval(checkInterval);
+                        resolve();
+                    }
+                }, 100);
+            });
+        }
+
+        // 处理语音状态变化的函数
+        function handleVoiceStateChange(status) {
+            if (status === 'speaking') {
+                isSpeaking = true;
+                updateStatus('avatar-status', '讲解中');
+                
+                // 语音开始播放时，更新字幕
+                if (currentSpeakingSentence) {
+                    updateSubtitle(currentSpeakingSentence);
+                }
+            } else if (status === 'idle') {
+                isSpeaking = false;
+                updateStatus('avatar-status', '就绪');
+                
+                // 当前句子说完了，清空字幕
+                if (currentSpeakingSentence) {
+                    updateSubtitle('');
+                    currentSpeakingSentence = '';
+                }
+                
+                // 当前句子说完了，标记为非说话状态
+                if (isSpeakingSentence) {
+                    isSpeakingSentence = false;
+                    
+                    // 尝试处理队列中的下一个句子
+                    if (typeof processSentenceQueue === 'function') {
+                        processSentenceQueue().catch(err => {
+                            console.error('处理句子队列时出错:', err);
+                        });
+                    }
+                }
+            }
+        }
+
+        // 去除markdown格式
+        function removeMarkdown(text) {
+            return text
+                // 去除标题标记
+                .replace(/^#{1,6}\s+/gm, '')
+                // 去除粗体标记
+                .replace(/\*\*(.*?)\*\*/g, '$1')
+                // 去除斜体标记
+                .replace(/\*(.*?)\*/g, '$1')
+                // 去除删除线标记
+                .replace(/~~(.*?)~~/g, '$1')
+                // 去除代码块
+                .replace(/```[\s\S]*?```/g, '')
+                // 去除行内代码
+                .replace(/`(.*?)`/g, '$1')
+                // 去除链接
+                .replace(/\[(.*?)\]\(.*?\)/g, '$1')
+                // 去除图片
+                .replace(/!\[(.*?)\]\(.*?\)/g, '$1')
+                // 去除引用
+                .replace(/^>\s+/gm, '')
+                // 去除列表标记
+                .replace(/^[\s]*[-*+]\s+/gm, '')
+                .replace(/^[\s]*\d+\.\s+/gm, '')
+                // 去除分割线
+                .replace(/^---+$/gm, '')
+                // 去除多余的空行
+                .replace(/\n{3,}/g, '\n\n')
+                // 去除首尾空白
+                .trim();
+        }
+
+        // 逐句讲解
+        async function speakBySentences(text) {
+            // 按句子分割（支持中文和英文标点）
+            const sentences = text.match(/[^。！？.!?]+[。！？.!?]+/g) || [text];
+            
+            for (let i = 0; i < sentences.length; i++) {
+                const sentence = sentences[i].trim();
+                
+                if (sentence.length === 0) {
+                    continue;
+                }
+                
+                // 讲解当前句子（speakMessage内部会更新字幕）
+                await speakMessage(sentence);
+                
+                // 等待讲解完成
+                await waitForSpeakingComplete();
+                
+                // 句子之间短暂停顿
+                await sleep(500);
+            }
+            
+            // 所有句子讲解完成
+            updateSubtitle('讲解完成');
+            setTimeout(() => {
+                updateSubtitle('');
+            }, 2000);
+        }
+
+        // 等待讲解完成
+        function waitForSpeakingComplete() {
+            return new Promise((resolve) => {
+                const checkInterval = setInterval(() => {
+                    if (!isSpeaking) {
+                        clearInterval(checkInterval);
+                        resolve();
+                    }
+                }, 100);
+            });
+        }
+
+        // 延时函数
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        // 初始化SDK
+        async function initSDK() {
+            if (isInitialized) return;
+
+            // 检查魔珐星云配置
+            if (!xingyunConfig.appId || !xingyunConfig.appSecret) {
+                const shouldConfig = confirm('魔珐星云配置不完整，请先配置相关信息！\n\n是否打开配置页面？');
+                if (shouldConfig) {
+                    openConfigModal();
+                }
+                return;
+            }
+
+            showLoading(true);
+            updateStatus('avatar-status', '初始化中...');
+            updateLoadingProgress(0);
+
+            try {
+                // 使用config.js中的配置
+                const config = xingyunConfig;
+                
+                // 创建SDK实例
+                liteSDK = new XmovAvatar({
+                    containerId: 'sdk',
+                    appId: config.appId,
+                    appSecret: config.appSecret,
+                    gatewayServer: config.gatewayServer,
+
+                    // 事件回调
+                    onWidgetEvent(data) {
+                    },
+
+                    onNetworkInfo(networkInfo) {
+                    },
+
+                    onMessage(message) {
+                        console.log("onMessage-----------------", message);
+                    },
+
+                    onStateChange(state) {
+                        if (state === 'connected') {
+                            onSDKConnected();
+                        } else if (state === 'disconnected') {
+                            onSDKDisconnected();
+                        }
+                    },
+
+                    onStatusChange(status) {
+                    },
+
+                    onStateRenderChange(state, duration) {
+                    },
+
+                    onVoiceStateChange(status) {
+                        handleVoiceStateChange(status);
+                    },
+
+                    enableLogger: true
+                });
+                
+                // 调用官方init方法
+                await liteSDK.init({
+                    onDownloadProgress: (progress) => {
+                        updateLoadingProgress(progress);
+                    }
+                });
+
+                isInitialized = true;
+                updateStatus('avatar-status', '就绪');
+                hideLoading();
+                document.getElementById('placeholder').classList.add('hidden');
+                
+                // 注意：不在初始化完成后立即开始介绍
+                // 等待用户点击按钮才开始讲解
+                
+            } catch (error) {
+                updateStatus('avatar-status', '初始化失败');
+                hideLoading();
+                alert('初始化过程中发生错误: ' + error.message);
+            }
+        }
+
+        // 切换时间段
+        function switchPeriod(period) {
+            if (currentPeriod === period) return;
+            
+            currentPeriod = period;
+            
+            // 更新时间段按钮状态
+            document.querySelectorAll('.time-period').forEach(btn => {
+                btn.classList.remove('active', 'glow-effect');
+            });
+            const activeBtn = document.querySelector(`.time-period[data-period="${period}"]`);
+            activeBtn.classList.add('active', 'glow-effect');
+            
+            // 更新状态显示
+            const periodNames = {
+                'past': '历史',
+                'present': '现代',
+                'future': '未来'
+            };
+            updateStatus('current-theme', periodNames[period]);
+            
+            // 切换内容卡片 - 添加淡入淡出效果
+            const currentCard = document.querySelector('.content-card:not([style*="display: none"])');
+            const newCard = document.getElementById(`${period}-content`);
+            
+            if (currentCard && currentCard !== newCard) {
+                // 先淡出当前卡片
+                currentCard.style.opacity = '0';
+                currentCard.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    // 隐藏当前卡片
+                    currentCard.style.display = 'none';
+                    
+                    // 显示新卡片
+                    newCard.style.display = 'block';
+                    newCard.style.opacity = '0';
+                    newCard.style.transform = 'translateY(20px)';
+                    
+                    // 触发重排
+                    newCard.offsetHeight;
+                    
+                    // 淡入新卡片
+                    newCard.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    newCard.style.opacity = '1';
+                    newCard.style.transform = 'translateY(0)';
+                }, 300);
+            } else if (newCard) {
+                newCard.style.display = 'block';
+            }
+            
+            // 讲解对应时间段的内容
+            speakMessage(shanghaiContent[period].intro);
+        }
+
+        // 讲解特定主题
+        function speakAbout(topic) {
+            if (!isInitialized) {
+                alert('请等待数字人初始化完成');
+                return;
+            }
+            
+            let message = '';
+            switch (topic) {
+                case 'landmarks':
+                    message = shanghaiContent[currentPeriod].landmarks;
+                    break;
+                case 'development':
+                    message = shanghaiContent[currentPeriod].development;
+                    break;
+                case 'planning':
+                    message = shanghaiContent[currentPeriod].planning;
+                    break;
+            }
+            
+            speakMessage(message);
+        }
+
+        // 讲解消息
+        async function speakMessage(text) {
+            
+            if (!isInitialized || !liteSDK) {
+                console.error('SDK未初始化');
+                alert('SDK未初始化，请等待初始化完成');
+                return;
+            }
+            
+            if (isSpeaking) {
+                return;
+            }
+            
+            isSpeaking = true;
+            updateStatus('avatar-status', '讲解中');
+            
+            // 字幕区域显示"正在为您讲解..."
+            updateSubtitle('正在为您讲解...');
+            
+            // 存储当前要说的句子，但不立即更新字幕
+            // 字幕将在语音状态变为speaking时更新
+            currentSpeakingSentence = text;
+            
+            try {
+                // 调用官方speak方法
+                const result = liteSDK.speak(text, true, true);
+                
+                // 检查浏览器音频权限
+                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                } else {
+                    console.warn('浏览器不支持音频设备');
+                }
+                
+            } catch (error) {
+                console.error('讲解失败:', error);
+                isSpeaking = false;
+                updateStatus('avatar-status', '讲解失败');
+                alert('讲解失败: ' + error.message);
+            }
+        }
+
+        // 停止讲解
+        async function stopSpeaking() {
+            if (!isInitialized || !liteSDK) {
+                return;
+            }
+
+            try {
+                // 调用SDK的interactiveidle方法停止流式讲解
+                if (typeof liteSDK.offlineMode === 'function') {
+                    liteSDK.offlineMode();
+                }
+                
+                // 停止流式输出
+                isStreaming = false;
+                
+                // 清空句子队列
+                sentenceQueue = [];
+                
+                // 重置状态
+                isSpeaking = false;
+                isSpeakingSentence = false;
+                currentSpeakingSentence = '';
+                
+                // 隐藏结束讲解按钮
+                hideStopButton();
+                // 更新状态显示
+                updateStatus('avatar-status', '就绪');
+                liteSDK.onlineMode();
+                // 清空字幕
+                updateSubtitle('欢迎来到上海城市展厅，我是您的智能讲解员');
+                
+                // 触发讲解结束事件
+                if (typeof onSpeakingEnded === 'function') {
+                    onSpeakingEnded();
+                }
+                
+            } catch (error) {
+                console.error('停止讲解失败:', error);
+            }
+        }
+
+        // 讲解结束回调函数（可自定义）
+        let onSpeakingEnded = null;
+
+        // 设置讲解结束回调
+        function setSpeakingEndedCallback(callback) {
+            onSpeakingEnded = callback;
+        }
+
+        // 更新字幕
+        function updateSubtitle(text) {
+            const subtitleElement = document.getElementById('subtitle-text');
+            subtitleElement.textContent = text;
+            
+            // 添加字幕动画效果
+            subtitleElement.style.animation = 'none';
+            setTimeout(() => {
+                subtitleElement.style.animation = 'fadeIn 0.5s ease-in-out';
+            }, 10);
+        }
+
+        // 显示结束讲解按钮
+        function showStopButton() {
+            const stopButton = document.getElementById('stop-speaking-btn');
+            if (stopButton) {
+                stopButton.classList.add('visible');
+            }
+        }
+
+        // 隐藏结束讲解按钮
+        function hideStopButton() {
+            const stopButton = document.getElementById('stop-speaking-btn');
+            if (stopButton) {
+                stopButton.classList.remove('visible');
+            }
+        }
+
+        // 获取当前字幕
+        function getCurrentSubtitle() {
+            return currentSpeakingSentence || '';
+        }
+        // 更新状态
+        function updateStatus(elementId, value) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.textContent = value;
+            }
+        }
+
+        // 更新加载进度
+        function updateLoadingProgress(progress) {
+            const progressPercent = Math.round(progress);
+            
+            const progressInner = document.getElementById('loading-progress-inner');
+            const progressText = document.getElementById('progress-text');
+            
+            if (progressInner) {
+                progressInner.style.width = `${progressPercent}%`;
+            }
+            
+            if (progressText) {
+                progressText.textContent = `${progressPercent}%`;
+            }
+        }
+
+        // 显示加载遮罩
+        function showLoading(show) {
+            const loadingOverlay = document.getElementById('loading-overlay');
+            if (show) {
+                loadingOverlay.style.display = 'flex';
+            } else {
+                loadingOverlay.style.display = 'none';
+            }
+        }
+
+        // 隐藏加载遮罩
+        function hideLoading() {
+            showLoading(false);
+        }
+
+        // 处理问题输入框的回车键事件
+        function handleQuestionKeypress(event) {
+            if (event.key === 'Enter') {
+                submitQuestion();
+            }
+        }
+
+        // 提交用户问题
+        async function submitQuestion() {
+            const questionInput = document.getElementById('user-question');
+            const question = questionInput.value.trim();
+            
+            if (!question) {
+                alert('请输入您的问题');
+                return;
+            }
+            
+            // 显示加载状态
+            questionInput.disabled = true;
+            questionInput.placeholder = '正在思考中...';
+            
+            try {
+                // 调用豆包API获取答案（流式输出，实时讲解）
+                await callDoubaoAPI(question);
+                
+                // 流式输出完成后，显示完成提示
+                setTimeout(() => {
+                    updateSubtitle('讲解完成');
+                    setTimeout(() => {
+                        updateSubtitle('');
+                    }, 2000);
+                }, 1000);
+                
+            } catch (error) {
+                console.error('处理问题时出错:', error);
+                // 使用默认回答
+                const defaultAnswer = "抱歉，我现在无法回答您的问题。请稍后再试，或者询问关于上海历史、现在或未来的其他问题。";
+                await speakBySentences(defaultAnswer);
+            } finally {
+                // 恢复输入框状态
+                questionInput.disabled = false;
+                questionInput.placeholder = '请输入您想了解的问题...';
+                questionInput.value = '';
+            }
+        }
+
+        // 添加淡入动画
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "shanghai-city-exhibition",
+  "version": "1.0.0",
+  "description": "上海城市介绍大屏展示页面",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": ["shanghai", "exhibition", "city"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
