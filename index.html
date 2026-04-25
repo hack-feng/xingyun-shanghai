@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>上海城市展厅 - 历史与未来的对话</title>
     <!-- 引入魔珐星云官方SDK -->
-    <script src="https://media.xingyun3d.com/xingyun3d/general/litesdk/xmovAvatar.0.1.0-alpha.15.js"></script>
+    <script src="https://media.xingyun3d.com/xingyun3d/general/litesdk/xmovAvatar@latest.js"></script>
     <!-- 引入配置文件 -->
     <script src="config.js"></script>
     <!-- 引入样式文件 -->
@@ -30,6 +30,11 @@
             <div class="config-modal-body">
                 <div class="config-section">
                     <h3>🌟 魔珐星云配置</h3>
+                    <div class="config-item invite-promo">
+                        <p style="color: #00bfff; font-size: 1rem; margin-bottom: 10px;">
+                            💡 还没有账号？使用邀请码 <strong style="color: #ffd700; font-size: 1.2rem;">J3DAJ8U6VP</strong> 去注册获取 App ID 和 App Secret！
+                        </p>
+                    </div>
                     <div class="config-item">
                         <label for="config-appId">App ID</label>
                         <input type="text" id="config-appId" placeholder="请输入魔珐星云 App ID">
@@ -88,14 +93,19 @@
                 
                 <div class="avatar-content">
                     <div class="sdk-container">
-                        <!-- 等待初始化时的占位符 -->
-                        <div class="placeholder" id="placeholder">
-                            <div class="placeholder-icon breathing">🏙️</div>
-                            <p>正在准备城市讲解员...</p>
-                            <p><small>请稍候，即将为您呈现上海的魅力</small></p>
+                        <div id="sdk">
+                            <!-- 等待初始化时的占位符 -->
+                            <div class="placeholder" id="placeholder">
+                                <div class="placeholder-icon breathing">🏙️</div>
+                                <p>正在准备城市讲解员...</p>
+                                <p><small>请稍候，即将为您呈现上海的魅力</small></p>
+                            </div>
+
+                            <!-- 数字人激活时的展示区域 -->
+                            <div class="avatar-active" id="avatar-active">
+                                <!-- SDK将在这里渲染数字人 -->
+                            </div>
                         </div>
-                        <!-- SDK容器 -->
-                        <div id="sdk"></div>
                     </div>
                     
                     <!-- 字幕显示区域 -->
@@ -786,7 +796,7 @@
                 
                 // 创建SDK实例
                 liteSDK = new XmovAvatar({
-                    containerId: 'sdk',
+                    containerId: '#avatar-active',
                     appId: config.appId,
                     appSecret: config.appSecret,
                     gatewayServer: config.gatewayServer,
@@ -834,6 +844,7 @@
                 updateStatus('avatar-status', '就绪');
                 hideLoading();
                 document.getElementById('placeholder').classList.add('hidden');
+                document.getElementById('avatar-active').classList.add('show');
                 
                 // 注意：不在初始化完成后立即开始介绍
                 // 等待用户点击按钮才开始讲解
